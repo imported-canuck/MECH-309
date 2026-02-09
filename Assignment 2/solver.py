@@ -1,8 +1,6 @@
 # %%
 import numpy as np
 from scipy import linalg
-from Assignment2Q3 import *
-
 # ----------------------------
 # STUDENT: choose a test case
 # ----------------------------
