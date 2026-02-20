@@ -41,7 +41,7 @@ def cg_solve_banded(a, b, c, rhs, x0, *, tol=1e-8, max_iter=200, M_inv=None):
     for iters in range(max_iter):
         # TODO: STUDENT: complete the CG iteration
 
-    return x.ravel(), iters
+        return x.ravel(), iters
 
 if __name__ == "__main__":
     import read_matrix as rm
