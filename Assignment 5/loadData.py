@@ -24,10 +24,6 @@ def load_calibration_data(filename="calibrationData.csv"):
 
     return v_data, y_data
 
-def GN_solve(v_data, y_data):
-    
-    pass
-
 if __name__ == "__main__":
     # Load data
     v_data, y_data = load_calibration_data()
