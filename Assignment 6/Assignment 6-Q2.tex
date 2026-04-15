@@ -1,0 +1,149 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{parskip}
+\usepackage{graphicx}
+\usepackage{float}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{MECH 309: Assignment 6, Question 2}}\\
+Cagri Arslan\\
+\today
+\end{center}
+
+Consider the initial value problem
+\begin{equation}
+\dot{x}(t)=f(x(t)), \qquad x(0)=x_0.
+\end{equation}
+We derive numerical integration schemes using finite-difference approximations to the derivative.
+
+\section*{(a) Forward difference and Forward Euler}
+
+Recall the forward-difference approximation
+\begin{equation}
+\dot{x}(t_k) \approx \frac{x_{k+1}-x_k}{h},
+\end{equation}
+where $h=t_{k+1}-t_k$.
+
+Evaluating the right-hand side of the ODE at $x_k=x(t_k)$ gives
+\begin{equation}
+\dot{x}(t_k)=f(x_k).
+\end{equation}
+Therefore,
+\begin{equation}
+\frac{x_{k+1}-x_k}{h}=f(x_k).
+\end{equation}
+Rearranging,
+\begin{equation}
+\boxed{x_{k+1}=x_k+h\,f(x_k).}
+\end{equation}
+This is the \textbf{Forward Euler} method.
+
+To determine the accuracy, expand $x(t_k+h)$ about $t_k$:
+\begin{equation}
+x(t_k+h)=x(t_k)+h\dot{x}(t_k)+\frac{h^2}{2}\ddot{x}(t_k)+\frac{h^3}{6}x^{(3)}(t_k)+\cdots.
+\end{equation}
+Subtracting $x(t_k)$ and dividing by $h$ yields
+\begin{equation}
+\frac{x(t_k+h)-x(t_k)}{h}=\dot{x}(t_k)+\frac{h}{2}\ddot{x}(t_k)+O(h^2).
+\end{equation}
+Hence,
+\begin{equation}
+\dot{x}(t_k)=\frac{x_{k+1}-x_k}{h}+O(h),
+\end{equation}
+so the Forward Euler method is \textbf{first-order accurate}, i.e. \(O(h)\).
+
+\section*{(b) Backward difference and Backward Euler}
+
+Recall the backward-difference approximation
+\begin{equation}
+\dot{x}(t_k) \approx \frac{x_k-x_{k-1}}{h},
+\end{equation}
+where $h=t_k-t_{k-1}$.
+
+Evaluating the ODE at $x_k=x(t_k)$ gives
+\begin{equation}
+\dot{x}(t_k)=f(x_k).
+\end{equation}
+Thus,
+\begin{equation}
+\frac{x_k-x_{k-1}}{h}=f(x_k).
+\end{equation}
+Rearranging,
+\begin{equation}
+\boxed{x_k=x_{k-1}+h\,f(x_k).}
+\end{equation}
+Writing this one step forward gives the update form
+\begin{equation}
+\boxed{x_{k+1}=x_k+h\,f(x_{k+1}).}
+\end{equation}
+This is the \textbf{Backward Euler} method.
+
+Using the Taylor expansion of $x(t_k-h)$ about $t_k$,
+\begin{equation}
+x(t_k-h)=x(t_k)-h\dot{x}(t_k)+\frac{h^2}{2}\ddot{x}(t_k)-\frac{h^3}{6}x^{(3)}(t_k)+\cdots,
+\end{equation}
+we obtain
+\begin{equation}
+\frac{x(t_k)-x(t_k-h)}{h}=\dot{x}(t_k)-\frac{h}{2}\ddot{x}(t_k)+O(h^2).
+\end{equation}
+Hence,
+\begin{equation}
+\dot{x}(t_k)=\frac{x_k-x_{k-1}}{h}+O(h),
+\end{equation}
+so Backward Euler is also \textbf{first-order accurate}, i.e. \(O(h)\).
+
+\section*{(c) Central difference and the Leapfrog method}
+
+Recall the central-difference approximation
+\begin{equation}
+\dot{x}(t_k) \approx \frac{x_{k+1}-x_{k-1}}{2h},
+\end{equation}
+where $h=t_{k+1}-t_k=t_k-t_{k-1}$.
+
+Evaluating the ODE at $x_k=x(t_k)$ gives
+\begin{equation}
+\dot{x}(t_k)=f(x_k).
+\end{equation}
+Therefore,
+\begin{equation}
+\frac{x_{k+1}-x_{k-1}}{2h}=f(x_k).
+\end{equation}
+Rearranging,
+\begin{equation}
+\boxed{x_{k+1}=x_{k-1}+2h\,f(x_k).}
+\end{equation}
+This is the \textbf{leapfrog method}.
+
+To determine the accuracy, use the Taylor expansions
+\begin{align}
+x(t_k+h) &= x(t_k)+h\dot{x}(t_k)+\frac{h^2}{2}\ddot{x}(t_k)+\frac{h^3}{6}x^{(3)}(t_k)+O(h^4),\\
+x(t_k-h) &= x(t_k)-h\dot{x}(t_k)+\frac{h^2}{2}\ddot{x}(t_k)-\frac{h^3}{6}x^{(3)}(t_k)+O(h^4).
+\end{align}
+Subtracting gives
+\begin{equation}
+x(t_k+h)-x(t_k-h)=2h\dot{x}(t_k)+\frac{h^3}{3}x^{(3)}(t_k)+O(h^5).
+\end{equation}
+Dividing by $2h$,
+\begin{equation}
+\frac{x(t_k+h)-x(t_k-h)}{2h}=\dot{x}(t_k)+O(h^2).
+\end{equation}
+Thus the leapfrog method is \textbf{second-order accurate}, i.e. \(O(h^2)\).
+
+To start the leapfrog method, we need both $x_0$ and $x_1$, but the initial condition only provides $x_0$. We therefore compute $x_1$ using a one-step method such as Forward Euler:
+\begin{equation}
+\boxed{x_1=x_0+h\,f(x_0).}
+\end{equation}
+Then the leapfrog update can be applied for $k\geq 1$:
+\begin{equation}
+\boxed{x_{k+1}=x_{k-1}+2h\,f(x_k).}
+\end{equation}
+For example,
+\begin{equation}
+x_2=x_0+2h\,f(x_1), \qquad x_3=x_1+2h\,f(x_2), \quad \text{etc.}
+\end{equation}
+
+\end{document}
